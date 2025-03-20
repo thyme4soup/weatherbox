@@ -1,4 +1,5 @@
 import openmeteo_requests
+from openmeteo_sdk.Variable import Variable
 
 import requests_cache
 from retry_requests import retry
@@ -12,8 +13,8 @@ openmeteo = openmeteo_requests.Client(session=retry_session)
 # The order of variables in hourly or daily is important to assign them correctly below
 url = "https://api.open-meteo.com/v1/forecast"
 params = {
-    "latitude": 52.52,
-    "longitude": 13.41,
+    "latitude": 37.51,
+    "longitude": -122.29,
     "current": ["precipitation", "weather_code"],
 }
 
@@ -40,7 +41,7 @@ def get_weather_info():
     response = responses[0]
     precipitation = response.Current().Variables(0).Value()
     weather_code = response.Current().Variables(1).Value()
-    # print(f"Precipitation: {precipitation}, Weather Code: {weather_code}")
+    print(f"Precipitation: {precipitation}, Weather Code: {weather_code}\n{response.Current().Variables(0).Unit()}")
 
     # https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
     if weather_code // 10 == 5:
