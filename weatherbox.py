@@ -21,6 +21,9 @@ PUMP_DUTY_PERIOD = 5
 # Lightning expected period in seconds
 LIGHTNING_EXPECTED_PERIOD = 10
 
+# Weather refresh frequency in seconds
+WEATHER_REFRESH_FREQUENCY = 300
+
 
 def pump_cycle(weather_info):
     ms = time.time() * 1000
@@ -84,11 +87,16 @@ def skybox_color(weather_info):
 
 
 if __name__ == "__main__":
+    weather_info = None
+    weather_info_last_update = time.time()
     while True:
-        weather_info = get_weather_info()
-        weather_info.lightning = True
-        # print(weather_info)
+        if weather_info == None or time.time() - weather_info_last_update > WEATHER_REFRESH_FREQUENCY:
+            print("Refreshing weather info")
+            weather_info = get_weather_info()
+            weather_info_last_update = time.time()
+            print(weather_info)
+        # duty cycle for pump and mist
         pump_cycle(weather_info)
         mist_cycle(weather_info)
         skybox_color(weather_info)
-        time.sleep(0.1)
+        time.sleep(0.05)
