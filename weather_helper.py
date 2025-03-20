@@ -45,10 +45,10 @@ def get_weather_info():
     # https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
     if weather_code // 10 == 5:
         # Drizzle
-        rain_intensity = 0.1
+        rain_intensity = 0.05
     elif weather_code // 10 == 6:
         # Rain
-        rain_intensity = 0.5
+        rain_intensity = 0.1
     else:
         rain_intensity = 0.0
 
